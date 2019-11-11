@@ -1,0 +1,9 @@
+<!--suppress HtmlFormInputWithoutLabel -->
+<div class="input-group">
+  <input class="form-control" style="float:none" ngx-mydatepicker #dp="ngx-mydatepicker" readonly
+         [options]="options" [disabled]="disabled" [ngModel]="inputValue" (ngModelChange)="onBeforeChange($event)" (blur)="onTouched()">
+  <span class="input-group-btn">
+    <button type="button" class="btn btn-default" (click)="dp.clearDate()"><i class="glyphicon glyphicon-remove"></i></button>
+    <button type="button" class="btn btn-default" (click)="dp.toggleCalendar()"><i class="glyphicon glyphicon-calendar"></i></button>
+  </span>
+</div>
