@@ -23,6 +23,7 @@ export class CustomNgxMyDatePickerComponent implements OnInit, OnChanges, Contro
   @Input() options: INgxMyDpOptions = {}
   disabled = false
   inputValue: any
+  prevOutputValue: any
 
   ngOnInit() {
     this.mergeOptions(this.options)
@@ -54,6 +55,7 @@ export class CustomNgxMyDatePickerComponent implements OnInit, OnChanges, Contro
         formatted: myMoment.format('DD/MM/YYYY'), // moment date format
         epoc: myMoment.unix()
       }
+      if (typeof this.prevOutputValue === 'undefined') this.prevOutputValue = myMoment.format()
     } else {
       this.inputValue = null
     }
@@ -66,12 +68,18 @@ export class CustomNgxMyDatePickerComponent implements OnInit, OnChanges, Contro
   }
 
   // Call this to modify output value
-  onBeforeChange = (outputValue) => {
-    if (outputValue) {
-      const myMoment = moment(outputValue.jsdate)
-      this.onChange(myMoment.format())
+  onBeforeChange = (rawOutputValue) => {
+    let outputValue
+    if (rawOutputValue) {
+      const myMoment = moment(rawOutputValue.jsdate)
+      outputValue = myMoment.format()
     } else {
-      this.onChange(null)
+      outputValue = null
+    }
+    // Only call onChange if there has been a change else the custom control will be wrongly identified as dirty
+    if (outputValue !== this.prevOutputValue) {
+      this.prevOutputValue = outputValue
+      this.onChange(outputValue)
     }
   }
 
