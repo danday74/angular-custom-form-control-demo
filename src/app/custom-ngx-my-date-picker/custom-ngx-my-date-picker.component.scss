@@ -1,7 +1,7 @@
-input[disabled] {
+input:disabled {
   color: transparent;
 }
 
-input[readonly] {
+input[readonly]:not(:disabled) {
   background-color: #FFF;
 }
